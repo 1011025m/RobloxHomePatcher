@@ -6,3 +6,10 @@ This is just a simple python script that patches the `RobloxPlayerLauncher.exe` 
 The script uses the same implementation from @lolmanurfunny, except I am not comfortable with distributing modified binaries on GitHub. It's very crappy for sure, but I'll need some more time to investigate.
 
 If you don't have python, you can grab an executable from Releases. Executable is built with PyInstaller.
+
+## TO-DO
+*Automatically pull content from the repository
+*Make it look more professional
+
+## Support
+Join my Discord server to contact me about this project (e.g. if it breaks)
