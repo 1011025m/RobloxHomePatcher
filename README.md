@@ -13,3 +13,5 @@ If you don't have python, you can grab an executable from Releases. Executable i
 
 ## Support
 Join my Discord server to contact me about this project (e.g. if it breaks)
+
+https://discord.gg/AHwMzED
