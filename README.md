@@ -8,8 +8,8 @@ The script uses the same implementation from @lolmanurfunny, except I am not com
 If you don't have python, you can grab an executable from Releases. Executable is built with PyInstaller.
 
 ## TO-DO
-*Automatically pull content from the repository
-*Make it look more professional
+* Automatically pull content from the repository
+* Make it look more professional
 
 ## Support
 Join my Discord server to contact me about this project (e.g. if it breaks)
