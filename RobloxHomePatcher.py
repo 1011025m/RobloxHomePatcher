@@ -21,16 +21,19 @@ def promptExit(code):
 bytesToReplace = [
     ["InBrowser++InApp++RobloxGameUpdater", "InBrowser++H4X3D++RobloxGameUpdater", 1],
     ["LaunchExp++launchexp++PreferInApp", "LaunchExp++launchexp++PreferH4X3D", 1],
-    ["Installer+++client++windowsLaunchShortcut+++app", "Installer+++client++windowsLaunchShortcut+++LOL", 2]
+    ["Installer+++client++windowsLaunchShortcut+++app", "Installer+++client++windowsLaunchShortcut+++LOL", 2],
 ]
 
 fileToPatch = None
 
-robloxPath = os.getenv('LOCALAPPDATA') + '\Roblox\Versions'
-folders = [folder for folder in os.listdir(robloxPath) if "version" in folder]
+robloxPaths = [
+    os.getenv('LOCALAPPDATA') + '\Roblox\Versions',
+    os.getenv('ProgramFiles(x86)') + '\Roblox\Versions',
+]
+folders = [robloxPath+'\\'+folder for robloxPath in robloxPaths for folder in os.listdir(robloxPath) if "version" in folder]
 
 for folder in folders:
-    if 'RobloxPlayerLauncher.exe' in os.listdir(robloxPath+'\\'+folder):
+    if 'RobloxPlayerLauncher.exe' in os.listdir(folder):
         print('Found executable!')
         fileToPatch = robloxPath+'\\'+folder+'\\'+'RobloxPlayerLauncher.exe'
         break
@@ -44,6 +47,7 @@ else:
 with open(fileToPatch, 'r+b') as topatch:
     read = topatch.read()
 
+    matchFound = False
     for index, byteSet in enumerate(bytesToReplace):
         if len(byteSet[0]) != len(byteSet[1]):
                 print(f"Target bytes do not match the length of replacement bytes, byte set: {index}")
@@ -52,6 +56,7 @@ with open(fileToPatch, 'r+b') as topatch:
         target = re.search(toArbBytes(byteSet[0], byteSet[2]), read)
         
         if target is not None:
+            matchFound = True
             print(f"Found matching bytes in {index+1} of {len(bytesToReplace)} set.")
             pos = target.start()
             print(f'Position is: {hex(pos)}')
@@ -60,9 +65,10 @@ with open(fileToPatch, 'r+b') as topatch:
             topatch.write(toArbBytes(byteSet[1], byteSet[2]))
             print("Patched")
             topatch.seek(0)
-        else:
-            print("Cannot find target bytes - maybe the executable has already been patched?")
-            promptExit(1)
+            
+    if not matchFound:
+        print("Cannot find target bytes - maybe the executable has already been patched?")
+        promptExit(1)
 
     topatch.close()
     print("All done!")
