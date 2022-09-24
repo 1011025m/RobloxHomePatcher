@@ -65,7 +65,6 @@ with open(fileToPatch, 'r+b') as topatch:
         target = re.search(toArbBytes(byteSet[0], byteSet[2]), read)
         
         if target is not None:
-            matchFound = True
             print(f"Found matching bytes in {index+1} of {len(bytesToReplace)} set.")
             pos = target.start()
             print(f'Position is: {hex(pos)}')
