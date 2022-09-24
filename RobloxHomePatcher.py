@@ -1,6 +1,6 @@
-import re
-import sys
-import os
+from re import search
+from sys import exit
+from os import getenv,listdir
 
 def toArbBytes(input, type):
     if type == 1: # The usual type - has have a null character before every character
@@ -11,7 +11,7 @@ def toArbBytes(input, type):
 
 def promptExit(code):
     input("Press Enter to quit")
-    sys.exit(code)
+    exit(code)
 
 '''
     First item: The target bytes
@@ -27,22 +27,22 @@ bytesToReplace = [
 fileToPatch = None
 
 possibleRobloxPaths = [
-    os.getenv('LOCALAPPDATA'),
-    os.getenv('ProgramFiles(x86)')
+    getenv('LOCALAPPDATA'),
+    getenv('ProgramFiles(x86)')
 ]
 
 for p in possibleRobloxPaths:
-    if "Roblox" in os.listdir(p):
+    if "Roblox" in listdir(p):
         robloxPath = p + '\Roblox\Versions'
 
 if robloxPath is None:
     print("Cannot find Roblox folder...")
     promptExit(1)
 
-folders = [folder for folder in os.listdir(robloxPath) if "version" in folder]
+folders = [folder for folder in listdir(robloxPath) if "version" in folder]
 
 for folder in folders:
-    if 'RobloxPlayerLauncher.exe' in os.listdir(robloxPath+'\\'+folder):
+    if 'RobloxPlayerLauncher.exe' in listdir(robloxPath+'\\'+folder):
         print('Found executable!')
         fileToPatch = robloxPath+'\\'+folder+'\\'+'RobloxPlayerLauncher.exe'
         break
@@ -62,7 +62,7 @@ with open(fileToPatch, 'r+b') as topatch:
                 print(f"Target bytes do not match the length of replacement bytes, byte set: {index}")
                 promptExit(1)
 
-        target = re.search(toArbBytes(byteSet[0], byteSet[2]), read)
+        target = search(toArbBytes(byteSet[0], byteSet[2]), read)
         
         if target is not None:
             print(f"Found matching bytes in {index+1} of {len(bytesToReplace)} set.")
