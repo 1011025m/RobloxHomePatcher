@@ -26,14 +26,23 @@ bytesToReplace = [
 
 fileToPatch = None
 
-robloxPaths = [
-    os.getenv('LOCALAPPDATA') + '\Roblox\Versions',
-    os.getenv('ProgramFiles(x86)') + '\Roblox\Versions',
+possibleRobloxPaths = [
+    os.getenv('LOCALAPPDATA'),
+    os.getenv('ProgramFiles(x86)')
 ]
-folders = [robloxPath+'\\'+folder for robloxPath in robloxPaths for folder in os.listdir(robloxPath) if "version" in folder]
+
+for p in possibleRobloxPaths:
+    if "Roblox" in os.listdir(p):
+        robloxPath = p + '\Roblox\Versions'
+
+if robloxPath is None:
+    print("Cannot find Roblox folder...")
+    promptExit(1)
+
+folders = [folder for folder in os.listdir(robloxPath) if "version" in folder]
 
 for folder in folders:
-    if 'RobloxPlayerLauncher.exe' in os.listdir(folder):
+    if 'RobloxPlayerLauncher.exe' in os.listdir(robloxPath+'\\'+folder):
         print('Found executable!')
         fileToPatch = robloxPath+'\\'+folder+'\\'+'RobloxPlayerLauncher.exe'
         break
