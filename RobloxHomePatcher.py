@@ -55,8 +55,8 @@ else:
 
 with open(fileToPatch, 'r+b') as topatch:
     read = topatch.read()
+    failures = 0
 
-    matchFound = False
     for index, byteSet in enumerate(bytesToReplace):
         if len(byteSet[0]) != len(byteSet[1]):
                 print(f"Target bytes do not match the length of replacement bytes, byte set: {index}")
@@ -73,13 +73,12 @@ with open(fileToPatch, 'r+b') as topatch:
             topatch.seek(pos)
             topatch.write(toArbBytes(byteSet[1], byteSet[2]))
             print("Patched")
-            topatch.seek(0)
-            
-    if not matchFound:
-        print("Cannot find target bytes - maybe the executable has already been patched?")
-        promptExit(1)
+            topatch.seek(0) 
+        else:
+            print(f"Target bytes set {index} of {len(bytesToReplace)} is not found.")
+            failures += 1
 
     topatch.close()
-    print("All done!")
+    print("All done!") if failures == 0 else print(f"{str(failures)} failures occured when patching.")
 
 promptExit(0)
