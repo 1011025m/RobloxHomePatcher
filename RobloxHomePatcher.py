@@ -42,6 +42,10 @@ possibleRobloxPaths = [
     os.getenv('ProgramFiles(x86)')
 ]
 
+# Init
+robloxPath = None
+fileToPatch = None
+
 # The real deal!
 for p in possibleRobloxPaths:
     if "Roblox" in os.listdir(p):
@@ -49,7 +53,10 @@ for p in possibleRobloxPaths:
         break
 
 if robloxPath is None:
-    printColored("Cannot find Roblox folder...", "red")
+    printColored("Cannot find the Roblox folder in your system.", "red")
+    printColored("Currently, the patcher only supports Roblox installations in one of these locations:", "red")
+    for path in possibleRobloxPaths:
+        printColored(" • "+path+"\Roblox", "red")
     promptExit(1)
 
 folders = [folder for folder in os.listdir(robloxPath) if "version" in folder]
@@ -60,11 +67,11 @@ for folder in folders:
         fileToPatch = robloxPath+'\\'+folder+'\\'+'RobloxPlayerLauncher.exe'
         break
 
-if fileToPatch is not None:
-    print(fileToPatch)
-else:
+if fileToPatch is None:
     printColored("Cannot find Roblox in your system. If you haven't installed it, please do so.", "red")
     promptExit(1)
+else:
+    print(fileToPatch)
 
 try:
     with open(fileToPatch, 'r+b') as topatch:
