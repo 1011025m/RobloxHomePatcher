@@ -38,8 +38,8 @@ bytesToReplace = [
 ]
 
 possibleRobloxPaths = [
+    os.getenv('ProgramFiles(x86)'),
     os.getenv('LOCALAPPDATA'),
-    os.getenv('ProgramFiles(x86)')
 ]
 
 # Init
