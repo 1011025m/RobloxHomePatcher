@@ -5,10 +5,6 @@ This is just a simple python script that patches the `RobloxPlayerLauncher.exe` 
 
 If you don't have python, you can grab an executable from Releases. Executable is built with PyInstaller.
 
-## TO-DO
-* Automatically pull content from the repository
-* Make it look more professional
-
 ## Technical Explanation
 When you launch Roblox from your browser, it will open a URI that launches the `RobloxPlayerLauncher.exe` first. The `RobloxPlayerLauncher.exe` handles client updates, and pass arguments it receives from your browser to the `RobloxPlayerBeta.exe`, which is the application (we call this the player client) that you use to actually play games.
 
