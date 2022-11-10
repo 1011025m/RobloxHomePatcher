@@ -1,3 +1,4 @@
+<font size="6">NOTE: DOES NOT WORK AS OF NOVEMBER 9, 2022</font>
 # RobloxHomePatcher
 Good ol' Roblox making unnecessary changes rather than upgrading their player client to 64-bit... C'mon you know better!
 
