@@ -25,6 +25,16 @@ def printColored(text: str, color: str):
     }
     print(availableColors[color] + text + availableColors["default"])
 
+def promptYesNo(q: str):
+    while True:
+        promptq = input(q)
+        if promptq.upper() == "Y":
+            return True
+        elif promptq.upper() == "N":
+            return False
+        else:
+            printColored("Invalid input.", "red")
+
 # Variables
 '''
     First item: The target bytes
@@ -42,9 +52,13 @@ possibleRobloxPaths = [
     os.getenv('ProgramFiles(x86)')
 ]
 
+originalRblxFile = 'Mobile.rbxl'
+renamedRblxFile = 'Mobile.disabled.rbxl'
+
 # Init
 robloxPath = None
 fileToPatch = None
+rbxlToRename = None
 
 # The real deal!
 for p in possibleRobloxPaths:
@@ -60,6 +74,40 @@ if robloxPath is None:
     promptExit(1)
 
 folders = [folder for folder in os.listdir(robloxPath) if "version" in folder]
+
+for folder in folders:
+    if 'places' not in os.listdir(robloxPath+'\\'+folder+'\\'+'ExtraContent'):
+        continue
+    
+    placesFolder = robloxPath+'\\'+folder+'\\'+'ExtraContent'+'\\'+'places'
+    print(placesFolder)
+
+    if originalRblxFile in os.listdir(placesFolder):
+        print('Found Roblox place file!')
+        rbxlToRename = placesFolder+'\\'+originalRblxFile
+        print('Renaming the Roblox place file... ', end='')
+        os.rename(rbxlToRename,placesFolder+'\\'+renamedRblxFile)
+        printColored('Done!', 'green')
+        break
+    elif renamedRblxFile in os.listdir(placesFolder):
+        rbxlToRename = placesFolder+'\\'+renamedRblxFile
+        print('The Roblox place file might have been renamed already')
+        continueUnpatch = promptYesNo('Do you want to rename it again to enable the in-app homepage? (Y/n): ')
+        if continueUnpatch == True:
+            print('Renaming the Roblox place file... ', end='')
+            os.rename(rbxlToRename,placesFolder+'\\'+originalRblxFile)
+            printColored('Done!', 'green')
+        else:
+            print('Skipped renaming Roblox place file.')
+        break
+
+if rbxlToRename is None:
+    printColored("Cannot find the correct file from your Roblox installation.", "red")
+    promptExit(1)
+
+if promptYesNo("Would you like to patch with legacy method as well? Currently it does not do anything. (Y/n): ") == False:
+    print("Skipped legacy patching.")
+    promptExit(0)
 
 for folder in folders:
     if 'RobloxPlayerLauncher.exe' in os.listdir(robloxPath+'\\'+folder):
