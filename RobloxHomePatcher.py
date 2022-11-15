@@ -1,7 +1,7 @@
 # Imports
-import re
 import sys
 import os
+from re import search
 
 os.system("")
 
@@ -76,6 +76,8 @@ if robloxPath is None:
 folders = [folder for folder in os.listdir(robloxPath) if "version" in folder]
 
 for folder in folders:
+    if 'ExtraContent' not in os.listdir(robloxPath+'\\'+folder):
+        continue
     if 'places' not in os.listdir(robloxPath+'\\'+folder+'\\'+'ExtraContent'):
         continue
     
@@ -86,12 +88,15 @@ for folder in folders:
         print('Found Roblox place file!')
         rbxlToRename = placesFolder+'\\'+originalRblxFile
         print('Renaming the Roblox place file... ', end='')
+        # In case Roblox backfills the file - if there's already a renamed one we'll remove it first
+        if renamedRblxFile in os.listdir(placesFolder): os.remove(placesFolder+'\\'+renamedRblxFile)
+        # And then rename the actual place file
         os.rename(rbxlToRename,placesFolder+'\\'+renamedRblxFile)
         printColored('Done!', 'green')
         break
     elif renamedRblxFile in os.listdir(placesFolder):
         rbxlToRename = placesFolder+'\\'+renamedRblxFile
-        print('The Roblox place file might have been renamed already')
+        print('The Roblox place file have been renamed already')
         continueUnpatch = promptYesNo('Do you want to rename it again to enable the in-app homepage? (Y/n): ')
         if continueUnpatch == True:
             print('Renaming the Roblox place file... ', end='')
@@ -100,12 +105,17 @@ for folder in folders:
         else:
             print('Skipped renaming Roblox place file.')
         break
+    else:
+        print(f"File not found in {folder}")
 
 if rbxlToRename is None:
     printColored("Cannot find the correct file from your Roblox installation.", "red")
     promptExit(1)
 
-if promptYesNo("Would you like to patch with legacy method as well? Currently it does not do anything. (Y/n): ") == False:
+print("Would you like to patch with legacy method as well?")
+printColored("As of right now, patching with the legacy method will launch Roblox into in-app homepage", "red")
+printColored("or Roblox won't launch at all if you already renamed the place file. Continue with caution.", "red")
+if promptYesNo("Continue? (Y/n): ") == False:
     print("Skipped legacy patching.")
     promptExit(0)
 
@@ -131,7 +141,7 @@ try:
                     printColored(f"Target bytes do not match the length of replacement bytes, byte set: {index}", "red")
                     promptExit(1)
 
-            target = re.search(toArbBytes(byteSet[0], byteSet[2]), read)
+            target = search(toArbBytes(byteSet[0], byteSet[2]), read)
             
             if target is not None:
                 print(f"Found matching bytes in {index+1} of {len(bytesToReplace)} set.")

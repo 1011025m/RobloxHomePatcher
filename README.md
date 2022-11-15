@@ -8,7 +8,9 @@ If you don't have python, you can grab an executable from Releases. Executable i
 ## Technical Explanation
 Current method is simply renaming the `Mobile.rbxl` file found inside the `./ExtraContent/places` from the Roblox installation directory. For a detailed explanation of how this worked in the past, check [here](EXPLANATION.md).
 
-The script still provides the legacy method of patching `RobloxPlayerLauncher.exe` in case Roblox does something wacky in the future.
+The script still provides the legacy method of patching `RobloxPlayerLauncher.exe` in case Roblox does something wacky in the future. 
+
+Currently if you patch with the legacy method, Roblox will launch into in-app homepage (if the place file is not renamed), or not launch at all (if the place file is renamed). Please reinstall the `RobloxPlayerLauncher.exe` if you did.
 
 ## Support
 Join my Discord server to contact me about this project (e.g. if it breaks)
