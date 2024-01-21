@@ -1,3 +1,6 @@
+# ARCHIVED - THIS IS BROKEN, DO NOT USE.
+If you are on Windows, use [Bloxstrap](https://github.com/pizzaboxer/bloxstrap) instead.
+
 # RobloxHomePatcher
 Good ol' Roblox making unnecessary changes rather than upgrading their player client to 64-bit... C'mon you know better!
 
@@ -11,8 +14,3 @@ Current method is simply renaming the `Mobile.rbxl` file found inside the `./Ext
 The script still provides the legacy method of patching `RobloxPlayerLauncher.exe` in case Roblox does something wacky in the future. 
 
 Currently if you patch with the legacy method, Roblox will launch into in-app homepage (if the place file is not renamed), or not launch at all (if the place file is renamed). Please reinstall the `RobloxPlayerLauncher.exe` if you did.
-
-## Support
-Join my Discord server to contact me about this project (e.g. if it breaks)
-
-https://discord.gg/AHwMzED
