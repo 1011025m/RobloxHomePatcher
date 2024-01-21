@@ -1,4 +1,4 @@
-# ARCHIVED - THIS IS BROKEN, DO NOT USE.
+# ARCHIVED - THERE WILL NOT BE UPDATES TO FIX THE SCRIPT IF BROKEN.
 If you are on Windows, use [Bloxstrap](https://github.com/pizzaboxer/bloxstrap) instead.
 
 # RobloxHomePatcher
